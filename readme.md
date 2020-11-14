@@ -12,7 +12,7 @@ build the image and run multiple instances of the image.
 - Clone the repo
 - Open `vars/aws.yml`, replace the values with real values
 - Edit helloworld.yml and replace `example.pem` with path to real .pem
-- Change subnet-vpc and group values in the ec2 section of the playbook
+- Change subnet-vpc, group, region, etc values in the ec2 section of the playbook
 - Run `ansible-playbook helloworld.yml`
 
 ## Take note
