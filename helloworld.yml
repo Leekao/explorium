@@ -1,6 +1,46 @@
 ---
-- name: Manage Docker instances via Ansible
-  hosts: local
+- name: Provision EC2 Instance
+  gather_facts: false
+  vars_files:
+    - vars/aws.yml
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Provision instance
+      register: ec2
+      ec2:
+        aws_access_key: "{{ aws_access_key }}"
+        key_name: "{{key_name}}"
+        aws_secret_key: "{{aws_secret_key}}"
+        instance_type: t2.micro
+        region: eu-west-1
+        image: ami-0dc8d444ee2a42d8a
+        wait: yes
+        group: launch-wizard-1
+        instance_tags:
+          Name: "Explorium hello world"
+        count: 1
+        vpc_subnet_id: subnet-3794d26d
+        assign_public_ip: yes
+    - name: Wait for instance
+      wait_for:
+        host={{item.public_dns_name}}
+        port=22
+        delay=30
+        timeout=240
+        state=started
+      with_items: "{{ec2.instances}}"
+    - name: Add new instance to Ansible hosts
+      add_host: hostname={{item.public_dns_name}} groups=ec2instances
+      with_items: "{{ec2.instances}}"
+- name: Deploy flask-helloworld to EC2
+  hosts: ec2instances
+  gather_facts: false
+  remote_user: ubuntu
+  vars:
+    ansible_ssh_common_args: '-o StrictHostKeyChecking=no -i example.pem'
+  become: true
+  become_method: sudo
   tasks:
     - name: Install aptitude using apt
       apt: name=aptitude state=latest update_cache=yes force_apt_get=yes
