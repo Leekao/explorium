@@ -6,7 +6,7 @@ build the image and run 3 instances of the image.
 ## Prequisites
 1. You'll need a a key-pair name and .PEM to connect to ec2
 2. You'll need an IAM accesskey and secret to provision the instance
-3. You'll need to have a localhost group in your ansible, if not change
+3. You'll need to have a localhost group in your ansible, if not change helloworld.yml localhost to your localhost group name
 
 ## How to use
 - Clone the repo
