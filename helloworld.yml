@@ -37,6 +37,8 @@
   hosts: ec2instances
   gather_facts: false
   remote_user: ubuntu
+  vars_files:
+    - vars/helloworld.yml
   vars:
     ansible_ssh_common_args: '-o StrictHostKeyChecking=no -i example.pem'
   become: true
@@ -81,7 +83,7 @@
         state: present
         ports:
          - "800{{item}}:5000"
-      with_sequence: count=3
+      with_sequence: count={{instances}}
     - name: Start Containers
       docker_container:
         name: helloworld-{{ item }}
@@ -89,4 +91,4 @@
         state: started
         ports:
          - "800{{item}}:5000"
-      with_sequence: count=3
+      with_sequence: count={{instances}}
