@@ -15,4 +15,4 @@ This Dockerfile and playbook will deploy multiple instances of `flask-helloworld
 
 ## Take note
 - If you want the change the number of helloworld instances running on the ec2 instance change the the value instances in `/vars/helloworld.yml`
-- The helloworld instances will be listen on port 8001+, so if you have 3 they will listen on 8001, 8002, 8003, so you will need to load balance them.
+- The helloworld instances will be listening on port 8001+, so if you have 3 they will listen on 8001, 8002, 8003, you will need to load balance them or expose them youself.
