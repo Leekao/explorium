@@ -63,6 +63,7 @@
       pip:
         name: docker
     - name: Restart docker service
+      warn: false
       command: service docker start
     - name: copying file to remote
       copy:
